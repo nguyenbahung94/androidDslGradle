@@ -1,0 +1,68 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace 'com.example.applicationusekotlindsl'
+    compileSdk Versions.compileSDK
+
+    defaultConfig {
+        applicationId "com.example.applicationusekotlindsl"
+        minSdk Versions.minSDK
+        targetSdk Versions.targetSDK
+        versionCode Versions.appVersionCode
+        versionName Versions.appVersionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        externalNativeBuild {
+            cmake {
+                cppFlags ''
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        viewBinding true
+    }
+    externalNativeBuild {
+        cmake {
+            path file('src/main/cpp/CMakeLists.txt')
+            version '3.22.1'
+        }
+    }
+}
+
+dependencies {
+    implementation Deps.coreKtx
+    implementation Deps.appcompat
+    implementation Deps.material
+    implementation Deps.constraintLayout
+    implementation Deps.navigationFragment
+    implementation Deps.navigationUi
+    implementation Deps.junit
+    implementation Deps.testExtJunit
+    implementation Deps.espressoCore
+}
+configurations.all {
+    // 2
+    resolutionStrategy {
+        // 3
+        failOnVersionConflict()
+        preferProjectModules()
+
+    }
+}
